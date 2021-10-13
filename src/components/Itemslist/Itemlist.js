@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { makeSelectItemsByColumn } from "../../features/AddItems/additems.slice";
-
+import { removeItem } from "../../features/AddItems/additems.slice";
 const ItemListContainer = styled.ul`
   list-style-type: none;
   width: 100%;
@@ -61,12 +61,16 @@ const ColumnHeading = styled.div`
   height: 45px;
 `;
 
-export const Itemlist = ({ removeItem, column }) => {
+export const Itemlist = ({ column }) => {
+  const dispatch = useDispatch();
   const selectItemsByColumn = useMemo(makeSelectItemsByColumn, [])
 
   const itemsByColumn = useSelector(state =>
     selectItemsByColumn(state, column)
   )
+  const handleRemoveItem = ({item, column}) => {
+    dispatch(removeItem({ item, column }));
+  }
   return (
     <>
       <ColumnHeading>{`Column ${column}`}</ColumnHeading>
@@ -74,7 +78,7 @@ export const Itemlist = ({ removeItem, column }) => {
         {itemsByColumn.map((item) => (
           <ItemListRow key={item.id}>
             <span>{item.value}</span>
-            <RemoveIcon title={`${item.value} ${column}`} removeItem={() => removeItem({ item, column })} />
+            <RemoveIcon title={`${item.value} ${column}`} removeItem={() => handleRemoveItem({item, column}) } />
           </ItemListRow>
         ))}
       </ItemListContainer>

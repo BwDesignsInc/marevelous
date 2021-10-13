@@ -1,8 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
 import styled from "styled-components";
 import AddItems from "../features/AddItems";
-import { removeItem } from "../features/AddItems/additems.slice";
 import { Itemlist } from "../components/Itemslist/Itemlist";
 import useMedia from "use-media";
 
@@ -39,7 +37,7 @@ const Col = styled.div`
   flex-wrap: wrap;
 `;
 
-export const App = ({ items, removeItem }) => {
+export const App = () => {
   const isDesktop = useMedia({ minWidth: "768px" });
 
   return (
@@ -64,10 +62,10 @@ export const App = ({ items, removeItem }) => {
               <Grid style={{ border: "5px solid white", marginLeft: "5px" }}>
                 <Row>
                   <Col size={1}>
-                    <Itemlist column={1} removeItem={removeItem}/>
+                    <Itemlist column={1} />
                   </Col>
                   <Col size={1}>
-                    <Itemlist column={2} removeItem={removeItem}/>
+                    <Itemlist column={2} />
                   </Col>
                 </Row>
               </Grid>
@@ -80,10 +78,10 @@ export const App = ({ items, removeItem }) => {
         <Grid style={{ border: "5px solid white", marginLeft: "5px", marginTop: "200px", marginBottom: "100px"}}>
           <Row isDesktop={isDesktop}>
             <Col size={1}>
-              <Itemlist column={1} removeItem={removeItem}/>
+              <Itemlist column={1}/>
             </Col>
             <Col size={1}>
-              <Itemlist column={2} removeItem={removeItem}/>
+              <Itemlist column={2}/>
             </Col>
           </Row>
         </Grid>
@@ -92,12 +90,4 @@ export const App = ({ items, removeItem }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  items: state.lists.items,
-});
-
-const mapDispatchToProps = {
-  removeItem
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
