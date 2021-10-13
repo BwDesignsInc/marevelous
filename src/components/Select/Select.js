@@ -22,6 +22,7 @@ const SelectStyle = styled.select`
 `;
 
 export const Select = ({ value, onChange, options }) => {
+  
   let columnList =
     options.length > 0 &&
     options.map((item, i) => {

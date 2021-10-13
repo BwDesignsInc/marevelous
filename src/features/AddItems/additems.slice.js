@@ -45,6 +45,7 @@ const selectColumnId = (state, columnId) => columnId;
 const selectListItems = (state) => state.lists.items;
 const selectSearchTerm = (state) => state.lists.searchTerm;
 
+export const selectColumns = (state) => state.lists.columns;
 export const makeSelectItemsByColumn = () => {
   const selectFilteredItems = createSelector(
     // First input selector: all todos
@@ -55,7 +56,7 @@ export const makeSelectItemsByColumn = () => {
         return items[columnId]
       }
       // Return either active or completed todos based on filter
-      return items[columnId].filter(item => {
+       return items[columnId].filter(item => {
         if(item.value.toLowerCase().includes(term)){
           return item;
         }

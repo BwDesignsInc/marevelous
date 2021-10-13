@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { addItem, selectColumn, setSearchTerm } from "./additems.slice";
+import { addItem, setColumn, setSearchTerm, selectColumns } from "./additems.slice";
 import Select from "../../components/Select";
 
 const Input = styled.input`
@@ -47,13 +47,18 @@ const SearchLabel = styled.div`
  padding-bottom: 5px;
 `
 
-export const AddItems = ({ addItem, selectColumn, columns, setSearchTerm  }) => {
+export const AddItems = () => {
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
- 
+  const columns = useSelector(selectColumns);
   const addItemHandler = () => {
-    addItem(inputValue);
+    dispatch(addItem(inputValue));
     setInputValue("");
   };
+
+  useEffect(() => {
+    dispatch(setSearchTerm(''))
+  }, [])
 
   return (
     <>
@@ -65,27 +70,16 @@ export const AddItems = ({ addItem, selectColumn, columns, setSearchTerm  }) => 
       ></Input>
       <Select
         defaultValue={"DEFAULT"}
-        onChange={selectColumn}
+        onChange={(e)=> dispatch(setColumn(e))}
         options={columns}
       />
       <ButtonWrapper>
         <Button onClick={addItemHandler}>Add Items</Button>
         <SearchLabel>Search and Item</SearchLabel>
-        <Input type="text" placeholder="Search Items" onChange={(e)=>setSearchTerm(e.target.value)} />
+        <Input type="text" placeholder="Search Items" onChange={(e)=> dispatch(setSearchTerm(e.target.value))} />
       </ButtonWrapper>
     </>
   );
 };
 
-const mapStateToProps = (state) => ({
-  items: state.lists.items,
-  columns: state.lists.columns,
-});
-
-const mapDispatchToProps = {
-  addItem,
-  selectColumn,
-  setSearchTerm
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddItems);
+export default AddItems;
