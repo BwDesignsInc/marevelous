@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import enableHooks from 'jest-react-hooks-shallow';
 import '@testing-library/jest-dom';
 

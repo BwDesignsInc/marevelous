@@ -17,11 +17,11 @@ describe("<APP/>", () => {
 
   })
 
-  it('should remove item when x it selected', () => {
+  it('should remove item when x it selected', async () => {
     const initialState = {
         items: {
           1: [
-            { id: 1, value: "first Item", columnId: 0 },
+            { id: 1, value: "first Item", columnId: 1 },
           ],
           2:[]
         },
@@ -35,7 +35,8 @@ describe("<APP/>", () => {
     const {container, debug, getByTitle} = render(<App />, { preloadedState:{ lists:initialState } });
     const buttonx = getByTitle('first Item 1');
     userEvent.click(buttonx);
-    debug(container);
+    expect(await screen.findByText(/first Item 1/i)).not.toBeInTheDocument()
+    console.log(getByTitle('first Item 1'));
   })
 
 });
